@@ -1,6 +1,1 @@
-langchain
-langchain-huggingface
-huggingface-hub[inference]
-langchain-openai
-langchain-groq==0.2.4
-python-dotenv
+-r chatbot/requirements.txt

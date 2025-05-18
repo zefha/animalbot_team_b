@@ -20,8 +20,9 @@ if not sys.warnoptions:
 
     warnings.simplefilter("ignore")
 
-# Load environment variables from .env file
-load_dotenv()
+load_dotenv(
+    dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+)
 
 # Get API key from environment variable or prompt the user
 API_KEY = os.getenv("CHAT_AI_ACCESS_KEY")

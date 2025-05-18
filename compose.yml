@@ -1,0 +1,32 @@
+version: '3'
+services:
+  
+  # nginx proxies all http requests to the right service 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./configs/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./configs/.htpasswd:/etc/nginx/.htpasswd
+    ports:
+      - "8080:8080"
+
+  # frontend service
+  frontend:
+    image: vm014.qu.tu-berlin.de:6000/csd-frontend-amd64
+    volumes:
+      - ./configs/frontend-assets/:/app/user-assets/
+  # animalbot service - switches between duck and fox personas
+  animalbot:
+    build:
+      context: ./chatbot
+      dockerfile: Dockerfile
+    container_name: animalbot
+    volumes:
+      - ./chatbot:/app
+      - ./data:/app/data
+    env_file:
+      - ./.env
+    stdin_open: true  # Keep STDIN open for interactive input
+    tty: true         # Allocate a pseudo-TTY
+    restart: unless-stopped
