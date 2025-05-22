@@ -1,4 +1,3 @@
-version: '3'
 services:
   
   # nginx proxies all http requests to the right service 
