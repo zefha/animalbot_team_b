@@ -54,7 +54,7 @@ streamlit run app.py
 ```
 
 The application will be available at:
-- Streamlit Interface: http://localhost:8501
+- Streamlit Interface: http://localhost:8502
 - FastAPI: http://localhost:8000
 
 ## Docker Deployment
