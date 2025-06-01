@@ -16,8 +16,6 @@ A conversational AI chatbot that can switch between a duck and fox persona. The 
 - Web interface built with Streamlit
 - FastAPI backend
 - Docker support
-- Real-time chat experience
-- Beautiful UI with message history
 
 ## Prerequisites
 
