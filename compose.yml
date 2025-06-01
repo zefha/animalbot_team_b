@@ -16,17 +16,20 @@ services:
     platform: linux/amd64/v3
     volumes:
       - ./configs/frontend-assets/:/app/user-assets/
-  # animalbot service - switches between duck and fox personas
+
+  # animalbot service - combines API and web interface
   animalbot:
     build:
-      context: ./chatbot
-      dockerfile: Dockerfile
-    container_name: animalbot
+      context: .
+      dockerfile: chatbot/Dockerfile
+    ports:
+      - "8001:8000"  # FastAPI
+      - "8502:8501"  # Streamlit
     volumes:
-      - ./chatbot:/app
       - ./data:/app/data
-    env_file:
-      - ./.env
-    stdin_open: true  # Keep STDIN open for interactive input
-    tty: true         # Allocate a pseudo-TTY
+      - ./chatbot:/app
+    environment:
+      - CHAT_AI_ACCESS_KEY=${CHAT_AI_ACCESS_KEY}
+    stdin_open: true
+    tty: true
     restart: unless-stopped
