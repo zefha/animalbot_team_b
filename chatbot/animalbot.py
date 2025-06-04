@@ -9,7 +9,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.outputs import LLMResult
 
 from langchain_openai import ChatOpenAI
-from langchain_huggingface import HuggingFaceEndpoint
 from dotenv import load_dotenv
 
 # the system emits a log of deprecated warnings to the console if we do not switch if off here
@@ -20,8 +19,9 @@ if not sys.warnoptions:
 
     warnings.simplefilter("ignore")
 
-# Load environment variables from .env file
-load_dotenv()
+load_dotenv(
+    dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+)
 
 # Get API key from environment variable or prompt the user
 API_KEY = os.getenv("CHAT_AI_ACCESS_KEY")
