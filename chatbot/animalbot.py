@@ -9,7 +9,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.outputs import LLMResult
 
 from langchain_openai import ChatOpenAI
-from langchain_huggingface import HuggingFaceEndpoint
 from dotenv import load_dotenv
 
 # the system emits a log of deprecated warnings to the console if we do not switch if off here
