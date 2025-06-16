@@ -15,12 +15,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Globale Instanz des AnimalAgent
-agent = AnimalAgent()
+# Dictionary für Session-spezifische Agenten
+session_agents: Dict[str, AnimalAgent] = {}
 
 class ChatMessage(BaseModel):
     message: str
     chat_history: List[str] = []
+    session_id: str
 
 class ChatResponse(BaseModel):
     response: str
@@ -30,6 +31,11 @@ class ChatResponse(BaseModel):
 @app.post("/chat", response_model=ChatResponse)
 async def chat(chat_message: ChatMessage):
     try:
+        # Prüfen ob eine Session-ID existiert, sonst neue erstellen
+        if chat_message.session_id not in session_agents:
+            session_agents[chat_message.session_id] = AnimalAgent()
+        
+        agent = session_agents[chat_message.session_id]
         response, log_message = agent.get_response(
             chat_message.message, 
             chat_message.chat_history

@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import uuid
 
 # Konfiguration der Seite
 st.set_page_config(
@@ -60,6 +61,8 @@ if "last_input" not in st.session_state:
     st.session_state.last_input = ""
 if "input_key" not in st.session_state:
     st.session_state.input_key = 0
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
 
 # Titel und Beschreibung
 st.title("🐾 Animal Chatbot")
@@ -107,7 +110,8 @@ if user_input and user_input != st.session_state.last_input:
             "http://localhost:8000/chat",
             json={
                 "message": user_input,
-                "chat_history": [msg["content"] for msg in st.session_state.messages]
+                "chat_history": [msg["content"] for msg in st.session_state.messages],
+                "session_id": st.session_state.session_id
             }
         )
         response_data = response.json()
