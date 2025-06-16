@@ -2,16 +2,19 @@ import streamlit as st
 import requests
 import json
 import uuid
+import os
 
 # Konfiguration der Seite
-st.set_page_config(
-    page_title="Animal Chatbot",
-    page_icon="🐾",
-    layout="centered"
-)
+st.set_page_config(page_title="Animal Chatbot", page_icon="🐾", layout="centered")
+
+# Get API base URL from environment variable or use default
+API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost")
+API_PORT = os.environ.get("API_PORT", "8000")
+API_URL = f"{API_BASE_URL}:{API_PORT}/chat"
 
 # CSS für besseres Styling
-st.markdown("""
+st.markdown(
+    """
 <style>
     /* Streamlit UI Elemente ausblenden */
     #MainMenu {visibility: hidden;}
@@ -50,7 +53,9 @@ st.markdown("""
         z-index: 100;
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Initialisierung des Session State
 if "messages" not in st.session_state:
@@ -66,10 +71,12 @@ if "session_id" not in st.session_state:
 
 # Titel und Beschreibung
 st.title("🐾 Animal Chatbot")
-st.markdown("""
+st.markdown(
+    """
 Chatte mit einem Fuchs oder einer Ente! 
 Sage einfach "Du bist ein Fuchs" oder "Du bist eine Ente" um den Charakter zu wechseln.
-""")
+"""
+)
 
 # Status-Anzeige
 state_emoji = "🦊" if st.session_state.current_state == "fox" else "🦆"
@@ -79,50 +86,60 @@ st.markdown(f"**Aktueller Charakter:** {state_emoji}")
 for message in st.session_state.messages:
     with st.container():
         if message["role"] == "user":
-            st.markdown(f"""
+            st.markdown(
+                f"""
             <div class="chat-message user">
                 <div>👤 <b>Du:</b></div>
                 <div>{message["content"]}</div>
             </div>
-            """, unsafe_allow_html=True)
+            """,
+                unsafe_allow_html=True,
+            )
         else:
-            st.markdown(f"""
+            st.markdown(
+                f"""
             <div class="chat-message bot">
                 <div>{state_emoji} <b>Bot:</b></div>
                 <div>{message["content"]}</div>
             </div>
-            """, unsafe_allow_html=True)
+            """,
+                unsafe_allow_html=True,
+            )
 
 # Eingabefeld in einem Container
 with st.container():
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
-    user_input = st.text_input("Deine Nachricht:", key=f"user_input_{st.session_state.input_key}")
-    st.markdown('</div>', unsafe_allow_html=True)
+    user_input = st.text_input(
+        "Deine Nachricht:", key=f"user_input_{st.session_state.input_key}"
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
 if user_input and user_input != st.session_state.last_input:
     # Nachricht zum Chat-Verlauf hinzufügen
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.last_input = user_input
-    
+
     # API-Anfrage senden
     try:
         response = requests.post(
-            "http://localhost:8000/chat",
+            API_URL,
             json={
                 "message": user_input,
                 "chat_history": [msg["content"] for msg in st.session_state.messages],
-                "session_id": st.session_state.session_id
-            }
+                "session_id": st.session_state.session_id,
+            },
         )
         response_data = response.json()
-        
+
         # Bot-Antwort zum Chat-Verlauf hinzufügen
-        st.session_state.messages.append({"role": "bot", "content": response_data["response"]})
+        st.session_state.messages.append(
+            {"role": "bot", "content": response_data["response"]}
+        )
         st.session_state.current_state = response_data["state"]
-        
+
         # Eingabefeld leeren durch Erhöhung des Keys
         st.session_state.input_key += 1
         st.experimental_rerun()
-        
+
     except Exception as e:
-        st.error(f"Fehler bei der Kommunikation mit dem Server: {str(e)}") 
+        st.error(f"Fehler bei der Kommunikation mit dem Server: {str(e)}")

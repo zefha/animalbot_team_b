@@ -12,6 +12,7 @@ services:
       - "./chatbot:/app"
     environment:
       - CHAT_AI_ACCESS_KEY=${CHAT_AI_ACCESS_KEY}
+      - API_BASE_URL=${API_BASE_URL:-http://localhost}
     stdin_open: true
     tty: true
     restart: unless-stopped
