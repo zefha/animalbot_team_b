@@ -133,35 +133,6 @@ User: what? tell me about your claws
 
 Bot: My claws! Unlike most dogs, I have retractable claws that...
 
-## How to run it
-
-* Install the requirements.txt
-* `python animalbot.py` to start the chat on the console
-
-## Setting up a Virtual Environment
-
-To run the Animalbot in an isolated environment, it's recommended to use a Python virtual environment (venv). Follow these steps:
-
-1. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-
-2. Activate the virtual environment:
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```bash
-     source venv/bin/activate
-     ```
-
-3. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
 ## Setting up the Environment Variables
 
 1. Copy the `.env.example` file to `.env`:
@@ -186,7 +157,7 @@ Alternatively, you can set the environment variable at the OS level:
   export CHAT_AI_ACCESS_KEY=your_actual_api_key_here
   ```
 
-## Running Multiple Instances
+## Running AnimalbotInstances
 
 AnimalBot supports running multiple instances using Docker Compose with customizable ports and data directories.
 
@@ -249,7 +220,7 @@ cp -r ~/path/to/animalbot/* ~/path/to/animalbot-instance2/
 
 # Start the new instance with custom settings
 cd ~/path/to/animalbot-instance2
-API_PORT=8003 UI_PORT=8504 DATA_DIR=./data2 API_BASE_URL=http://localhost docker compose -p $(basename "$PWD") up -d
+API_PORT=8003 UI_PORT=8504 API_BASE_URL=http://localhost docker compose -p $(basename "$PWD") up -d
 ```
 
 Each instance will use its directory name as the Docker Compose project name, keeping services isolated.
