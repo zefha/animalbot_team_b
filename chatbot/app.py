@@ -9,8 +9,17 @@ st.set_page_config(page_title="Animal Chatbot", page_icon="🐾", layout="center
 
 # Get API base URL from environment variable or use default
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost")
-API_PORT = os.environ.get("API_PORT", "8000")
-API_URL = f"{API_BASE_URL}:{API_PORT}/chat"
+API_PORT = os.environ.get("API_PORT", "8001")
+
+# Determine the correct API URL
+# If API_BASE_URL is localhost, use port 8000 (internal container communication)
+# Otherwise use the external port (for browser access from outside)
+if "localhost" in API_BASE_URL or "127.0.0.1" in API_BASE_URL:
+    API_URL = f"{API_BASE_URL}:8000/chat"
+else:
+    API_URL = f"{API_BASE_URL}:{API_PORT}/chat"
+
+print(f"API_URL: {API_URL}")
 
 # CSS für besseres Styling
 st.markdown(
