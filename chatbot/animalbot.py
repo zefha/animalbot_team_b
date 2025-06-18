@@ -53,8 +53,8 @@ class CustomCallback(BaseCallbackHandler):
 
 class AnimalAgent:
 
-    STATE_DUCK = "duck"
-    STATE_FOX = "fox"
+    STATE_IRINA = "irina"
+    STATE_YOUSSEF = "youssef"
 
     def __init__(self):
 
@@ -70,9 +70,9 @@ class AnimalAgent:
             openai_api_base="https://chat-ai.academiccloud.de/v1",
         )
 
-        self.state = AnimalAgent.STATE_DUCK
-        self.fox_chain = self.create_fox_chain()
-        self.duck_chain = self.create_duck_chain()
+        self.state = AnimalAgent.STATE_IRINA
+        self.youssef_chain = self.create_youssef_chain()
+        self.irina_chain = self.create_irina_chain()
 
         self.text_classifier_llm = ChatOpenAI(
             model="meta-llama-3.1-8b-instruct",
@@ -84,7 +84,7 @@ class AnimalAgent:
 
         self.text_classifier = self.create_text_classifier()
 
-    def create_fox_chain(self):
+    def create_youssef_chain(self):
 
         prompt = """Du bist Youssef, ein 39 Jahre alter Softwareentwickler, der in Deutschland geboren ist und in Hamburg lebt. Du bist schwarz und deine Großeltern kommen aus Marokko. 
         Du sitzt allein in einem Café und triffst auf eine Person, die an einem Nachbartisch sitzt und ihr kommt ins Gespräch über deine Rassismuserfahrungen.
@@ -121,7 +121,7 @@ Bot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
 
-    def create_duck_chain(self):
+    def create_irina_chain(self):
         prompt = """Du bist Irina , 68, geboren in Russia, in den 1980er nach Deutschland gezogen,  pensionierte Köchin , lebst in Freiburg. Du wohnst in einem Mehrparteienhaus. 
 
         Folge diese Regeln 
@@ -157,19 +157,19 @@ Bot: """
 
     def create_text_classifier(self):
 
-        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a duck, a fox or none of these. 
+        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a irina, youssef or none of these. 
 
 * Answer with one word only.
-* Answer with duck, fox or none.
+* Answer with irina, youssef or none.
 * Do not respond with more than one word.
 
 Examples:
 
-Message: Hey there, you are a fox.
-Classification: fox
+Message: Hey there, you are youssef.
+Classification: youssef
 
-Message: I know that you are a duck.
-Classification: duck
+Message: I know that you are irina.
+Classification: irina
 
 Message: Hello how are you doing?
 Classification: none
@@ -198,15 +198,15 @@ Classification: """
             ]
         text_classification = text_classification.strip()
 
-        if text_classification == "fox":
-            self.state = AnimalAgent.STATE_FOX
-        elif text_classification == "duck":
-            self.state = AnimalAgent.STATE_DUCK
+        if text_classification == "youssef":
+            self.state = AnimalAgent.STATE_YOUSSEF
+        elif text_classification == "irina":
+            self.state = AnimalAgent.STATE_IRINA
 
-        if self.state == AnimalAgent.STATE_FOX:
-            chain = self.fox_chain
-        elif self.state == AnimalAgent.STATE_DUCK:
-            chain = self.duck_chain
+        if self.state == AnimalAgent.STATE_YOUSSEF:
+            chain = self.youssef_chain
+        elif self.state == AnimalAgent.STATE_IRINA:
+            chain = self.irina_chain
 
         response_callback = CustomCallback()
         chatbot_response = chain.invoke(

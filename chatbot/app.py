@@ -56,7 +56,7 @@ st.markdown("""
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "current_state" not in st.session_state:
-    st.session_state.current_state = "duck"
+    st.session_state.current_state = "irina"
 if "last_input" not in st.session_state:
     st.session_state.last_input = ""
 if "input_key" not in st.session_state:
@@ -65,14 +65,14 @@ if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
 # Titel und Beschreibung
-st.title("🐾 Ask Me Anything")
+st.title("🗣 Ask Me Anything")
 st.markdown("""
-Chatte mit einem Fuchs oder einer Ente! 
-Sage einfach "Du bist ein Fuchs" oder "Du bist eine Ente" um den Charakter zu wechseln.
+Chatte mit Youssef oder Irina! 
+Sage einfach "Du bist Youssef" oder "Du bist Irina" um den Charakter zu wechseln.
 """)
 
 # Status-Anzeige
-state_emoji = "🦊" if st.session_state.current_state == "fox" else "🦆"
+state_emoji = "👨🏿‍💻" if st.session_state.current_state == "youssef" else "👵🏻"
 st.markdown(f"**Aktueller Charakter:** {state_emoji}")
 
 # Chat-Verlauf anzeigen
