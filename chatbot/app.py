@@ -5,7 +5,7 @@ import uuid
 
 # Konfiguration der Seite
 st.set_page_config(
-    page_title="Animal Chatbot",
+    page_title="Ask Me Anything",
     page_icon="🐾",
     layout="centered"
 )
@@ -65,7 +65,7 @@ if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
 # Titel und Beschreibung
-st.title("🐾 Animal Chatbot")
+st.title("🐾 Ask Me Anything")
 st.markdown("""
 Chatte mit einem Fuchs oder einer Ente! 
 Sage einfach "Du bist ein Fuchs" oder "Du bist eine Ente" um den Charakter zu wechseln.
