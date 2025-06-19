@@ -63,7 +63,7 @@ class AnimalAgent:
         # Set custom base URL and API key directly in the ChatOpenAI initialization
         # Use the api_key that was determined outside of the class
         self.llm = ChatOpenAI(
-            model="llama-3.3-70b-instruct",
+            model="meta-llama-3.1-8b-instruct",
             temperature=0.6,
             logprobs=True,
             openai_api_key=API_KEY,
