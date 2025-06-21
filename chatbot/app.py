@@ -5,7 +5,8 @@ import uuid
 import os
 
 # Konfiguration der Seite
-st.set_page_config(page_title="Animal Chatbot", page_icon="🐾", layout="centered")
+
+st.set_page_config(page_title="Ask Me Anything", page_icon="🗣", layout="centered")
 
 # Get API base URL from environment variable or use default
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost")
@@ -20,6 +21,7 @@ else:
     API_URL = f"{API_BASE_URL}:{API_PORT}/chat"
 
 print(f"API_URL: {API_URL}")
+
 
 # CSS für besseres Styling
 st.markdown(
@@ -70,7 +72,7 @@ st.markdown(
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "current_state" not in st.session_state:
-    st.session_state.current_state = "duck"
+    st.session_state.current_state = "irina"
 if "last_input" not in st.session_state:
     st.session_state.last_input = ""
 if "input_key" not in st.session_state:
@@ -79,16 +81,16 @@ if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
 # Titel und Beschreibung
-st.title("🐾 Animal Chatbot")
-st.markdown(
-    """
-Chatte mit einem Fuchs oder einer Ente! 
-Sage einfach "Du bist ein Fuchs" oder "Du bist eine Ente" um den Charakter zu wechseln.
-"""
-)
+
+st.title("🗣 Ask Me Anything")
+st.markdown("""
+Chatte mit Youssef oder Irina! 
+Sage einfach "Du bist Youssef" oder "Du bist Irina" um den Charakter zu wechseln.
+""")
+
 
 # Status-Anzeige
-state_emoji = "🦊" if st.session_state.current_state == "fox" else "🦆"
+state_emoji = "👨🏿‍💻" if st.session_state.current_state == "youssef" else "👵🏻"
 st.markdown(f"**Aktueller Charakter:** {state_emoji}")
 
 # Chat-Verlauf anzeigen
