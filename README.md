@@ -133,35 +133,6 @@ User: what? tell me about your claws
 
 Bot: My claws! Unlike most dogs, I have retractable claws that...
 
-## How to run it
-
-* Install the requirements.txt
-* `python animalbot.py` to start the chat on the console
-
-## Setting up a Virtual Environment
-
-To run the Animalbot in an isolated environment, it's recommended to use a Python virtual environment (venv). Follow these steps:
-
-1. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-
-2. Activate the virtual environment:
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```bash
-     source venv/bin/activate
-     ```
-
-3. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
 ## Setting up the Environment Variables
 
 1. Copy the `.env.example` file to `.env`:
@@ -185,3 +156,80 @@ Alternatively, you can set the environment variable at the OS level:
   ```bash
   export CHAT_AI_ACCESS_KEY=your_actual_api_key_here
   ```
+
+## Running AnimalbotInstances
+
+AnimalBot supports running multiple instances using Docker Compose with customizable ports and data directories.
+
+### Basic Usage
+
+Start AnimalBot with default settings:
+
+```bash
+docker compose up -d
+```
+
+This will:
+- Start the API on port 8001
+- Start the UI on port 8502
+- Use the `./data` directory for storage
+
+### Custom Configuration
+
+Run an instance with custom ports and data directory:
+
+```bash
+API_PORT=8003 UI_PORT=8504 DATA_DIR=./data2 API_BASE_URL=http://localhost docker compose -p $(basename "$PWD") up -d
+```
+
+This command:
+- Uses the current directory name as the project name
+- Starts the API on port 8003
+- Starts the UI on port 8504
+- Uses the `./data2` directory for storage
+- Sets the API base URL to http://localhost (change if deploying to a remote server)
+
+### Managing Instances
+
+View logs for the current directory's instance:
+
+```bash
+docker compose -p $(basename "$PWD") logs -f
+```
+
+Stop the current directory's instance:
+
+```bash
+docker compose -p $(basename "$PWD") down
+```
+
+List all running Docker Compose projects:
+
+```bash
+docker compose ls
+```
+
+### Running Multiple Named Instances
+
+For multiple instances, you can use different directories:
+
+```bash
+# Create a new instance directory
+mkdir -p ~/path/to/animalbot-instance2
+cp -r ~/path/to/animalbot/* ~/path/to/animalbot-instance2/
+
+# Start the new instance with custom settings
+cd ~/path/to/animalbot-instance2
+API_PORT=8003 UI_PORT=8504 API_BASE_URL=http://localhost docker compose -p $(basename "$PWD") up -d
+```
+
+Each instance will use its directory name as the Docker Compose project name, keeping services isolated.
+
+### Accessing Your Instances
+
+- First instance API: http://localhost:8001
+- First instance UI: http://localhost:8502
+- Second instance API: http://localhost:8003  
+- Second instance UI: http://localhost:8504
+
+Replace `localhost` with your server's IP or domain name when deploying remotely.
