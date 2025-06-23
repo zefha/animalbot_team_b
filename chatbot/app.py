@@ -85,7 +85,7 @@ if "session_id" not in st.session_state:
 st.title("🗣 Ask Me Anything")
 st.markdown("""
 Chatte mit Youssef oder Irina! 
-Sage einfach "Du bist Youssef" oder "Du bist Irina" um den Charakter zu wechseln.
+Sage einfach "Du bist Youssef" oder "Du bist Irina" um den Charakter zu wählen.
 """)
 
 
