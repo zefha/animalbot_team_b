@@ -56,6 +56,9 @@ class AnimalAgent:
     STATE_IRINA = "irina"
     STATE_YOUSSEF = "youssef"
 
+    STATE_GOODBYE_IRINA = "goodbye irina"
+
+
     def __init__(self):
 
         # Initialize LLM using OpenAI-compatible API
@@ -73,6 +76,8 @@ class AnimalAgent:
         self.state = AnimalAgent.STATE_IRINA
         self.youssef_chain = self.create_youssef_chain()
         self.irina_chain = self.create_irina_chain()
+
+        self.goodbye_irina_chain = self.create_goodbye_irina_chain()
 
         self.text_classifier_llm = ChatOpenAI(
             model="meta-llama-3.1-8b-instruct",
@@ -125,7 +130,7 @@ Bot: """
         * Du bist in den 1980er nach Deutschland gezogen
         * Du bist Rentnerin 
         * Du warst Köchin
-        * Du lebst in Berlin
+        * Du lebst in Freiburg
         * Du wohnst in einem Mehrparteienhaus. 
 
 Folge diese Regeln 
@@ -138,8 +143,6 @@ Folge diese Regeln
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
 * Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
-* Zähle wie viele Nachrichten der User gibt
-* Nach der fünften Nachricht des Users sollte das Gespräch beendet werden, indem du auf die letzte Frage antwortest und folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97" 
 
 {chat_history}
 User: {user_message}
@@ -176,9 +179,36 @@ Classification: """
             | StrOutputParser()
         )
         return chain
+    
+
+    def create_goodbye_irina_chain(self):
+        prompt = """
+       
+        * Du bist Irina
+        * Du bist 68 Jahre alt
+        * Du bist in Russland geboren
+        * Du bist in den 1980er nach Deutschland gezogen
+        * Du bist Rentnerin 
+        * Du warst Köchin
+        * Du lebst in Freiburg
+        * Du wohnst in einem Mehrparteienhaus. 
+
+Folge diese Regeln 
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97"
+
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+
 
     def get_response(self, user_message, chat_history):
-
+        
+        print(len(chat_history))
+        print(self.state)
         classification_callback = CustomCallback()
         text_classification = self.text_classifier.invoke(
             user_message,
@@ -192,14 +222,30 @@ Classification: """
         text_classification = text_classification.strip()
 
         if text_classification == "youssef":
+
+            if self.state == AnimalAgent.STATE_IRINA:
+                chat_history = []
             self.state = AnimalAgent.STATE_YOUSSEF
         elif text_classification == "irina":
+            if self.state == AnimalAgent.STATE_YOUSSEF:
+                chat_history = []
+
             self.state = AnimalAgent.STATE_IRINA
+        
+       
 
         if self.state == AnimalAgent.STATE_YOUSSEF:
             chain = self.youssef_chain
         elif self.state == AnimalAgent.STATE_IRINA:
             chain = self.irina_chain
+
+        if len(chat_history) == 9:
+             self.state =  AnimalAgent.STATE_GOODBYE_IRINA
+
+        if self.state == AnimalAgent.STATE_GOODBYE_IRINA:
+            chain = self.goodbye_irina_chain
+        
+
 
         response_callback = CustomCallback()
         chatbot_response = chain.invoke(
