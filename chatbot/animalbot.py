@@ -58,6 +58,8 @@ class AnimalAgent:
 
     STATE_GOODBYE_IRINA = "goodbye irina"
 
+    STATE_GOODBYE_YOUSSEF = "goodbye youssef"
+
 
     def __init__(self):
 
@@ -78,6 +80,7 @@ class AnimalAgent:
         self.irina_chain = self.create_irina_chain()
 
         self.goodbye_irina_chain = self.create_goodbye_irina_chain()
+        self.goodbye_youssef_chain = self.create_goodbye_youssef_chain()
 
         self.text_classifier_llm = ChatOpenAI(
             model="meta-llama-3.1-8b-instruct",
@@ -203,6 +206,29 @@ Bot: """
 
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
+    
+    def create_goodbye_youssef_chain(self):
+        prompt = """
+       
+        * Du bist Youssef, 
+        * Du bist 39 Jahre alt
+        * Du bist Softwareentwickler
+        * Du bist in Deutschland geboren 
+        * Du lebst in Hamburg 
+        * Du bist schwarz
+        * Deine Großeltern kommen aus Marokko. 
+
+Folge diese Regeln 
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97"
+
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+
 
 
     def get_response(self, user_message, chat_history):
@@ -239,11 +265,17 @@ Bot: """
         elif self.state == AnimalAgent.STATE_IRINA:
             chain = self.irina_chain
 
-        if len(chat_history) == 9:
-             self.state =  AnimalAgent.STATE_GOODBYE_IRINA
+        if len(chat_history) >= 9:
+             if self.state == AnimalAgent.STATE_IRINA:
+                self.state =  AnimalAgent.STATE_GOODBYE_IRINA
+             elif self.state == AnimalAgent.STATE_YOUSSEF:
+                 self.state =  AnimalAgent.STATE_GOODBYE_YOUSSEF
 
         if self.state == AnimalAgent.STATE_GOODBYE_IRINA:
             chain = self.goodbye_irina_chain
+
+        if self.state == AnimalAgent.STATE_GOODBYE_YOUSSEF:
+            chain = self.goodbye_youssef_chain
         
 
 
