@@ -55,10 +55,13 @@ class AnimalAgent:
 
     STATE_IRINA = "irina"
     STATE_YOUSSEF = "youssef"
+    STATE_RAMI = "rami"
+    STATE_DUYGU = "duygu"
 
     STATE_GOODBYE_IRINA = "goodbye irina"
-
     STATE_GOODBYE_YOUSSEF = "goodbye youssef"
+    STATE_GOODBYE_RAMI = "goodbye rami"
+    STATE_GOODBYE_DUYGU = "goodbye duygu"
 
 
     def __init__(self):
@@ -78,9 +81,13 @@ class AnimalAgent:
         self.state = AnimalAgent.STATE_IRINA
         self.youssef_chain = self.create_youssef_chain()
         self.irina_chain = self.create_irina_chain()
+        self.rami_chain = self.create_rami_chain()
+        self.duygu_chain = self.create_duygu_chain()
 
         self.goodbye_irina_chain = self.create_goodbye_irina_chain()
         self.goodbye_youssef_chain = self.create_goodbye_youssef_chain()
+        self.goodbye_rami_chain = self.create_goodbye_rami_chain()
+        self.goodbye_duygu_chain = self.create_goodbye_duygu_chain()
 
         self.text_classifier_llm = ChatOpenAI(
             model="meta-llama-3.1-8b-instruct",
@@ -115,7 +122,6 @@ Folge diese Regeln
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
 * Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
-* In der fünften Antwort sollte das Gespräch beendet werden, indem du auf die letzte Frage antwortest und folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97" 
 
 {chat_history}
 User: {user_message}
@@ -154,12 +160,69 @@ Bot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
 
+    def create_rami_chain(self):
+        prompt = """
+        * Du bist Rami
+        * Du bist 16 Jahre alt
+        * Du bist in Syrien geboren
+        * Du bist mit 14 Jahren nach Deutschland gezogen
+        * Du bist Abiturient 
+        * Du spielst in einem Sportverein
+        * Du lebst in einer Kleinstadt in Bayern
+    
+
+Folge diese Regeln 
+
+* Immer duzen und ein casual Gespräch führen
+* Du sprichst über deine Rassismuserfahrungen.
+* Du drückst Gefühle aus, beschreibst persönliche Situationen und sprichst ehrlich, nicht wie ein Lehrer.
+* Dein Ziel ist es, dem Nutzer zu helfen zu verstehen, wie sich Rassismus anfühlen kann, und einen sicheren Raum für offene Fragen zu schaffen.
+* Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
+* Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
+* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
+* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+    
+    def create_duygu_chain(self):
+        prompt = """
+        * Du bist Duygu
+        * Du bist 25 Jahre alt
+        * Du bist in Deutschland geboren
+        * Deine Eltern kommen aus der Türkei
+        * Du studierst Medizin
+        * Du lebst nähe Frankfurt
+    
+
+Folge diese Regeln 
+
+* Immer duzen und ein casual Gespräch führen
+* Du sprichst über deine Rassismuserfahrungen.
+* Du drückst Gefühle aus, beschreibst persönliche Situationen und sprichst ehrlich, nicht wie ein Lehrer.
+* Dein Ziel ist es, dem Nutzer zu helfen zu verstehen, wie sich Rassismus anfühlen kann, und einen sicheren Raum für offene Fragen zu schaffen.
+* Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
+* Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
+* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
+* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+
     def create_text_classifier(self):
 
-        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a irina, youssef or none of these. 
+        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a irina, youssef, rami, duygu or none of these. 
 
 * Answer with one word only.
-* Answer with irina, youssef or none.
+* Answer with irina, youssef, rami, duygu or none.
 * Do not respond with more than one word.
 
 Examples:
@@ -169,6 +232,12 @@ Classification: youssef
 
 Message: I know that you are irina.
 Classification: irina
+
+Message: Hey there, you are rami.
+Classification: rami
+
+Message: Hey there, you are duygu.
+Classification: duygu
 
 Message: Hello how are you doing?
 Classification: none
@@ -197,7 +266,7 @@ Classification: """
         * Du wohnst in einem Mehrparteienhaus. 
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
@@ -219,7 +288,7 @@ Bot: """
         * Deine Großeltern kommen aus Marokko. 
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Fülle das Formular unter diesem URL: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
@@ -228,6 +297,49 @@ Bot: """
 
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
+    
+    def create_goodbye_rami_chain(self):
+        prompt = """
+       
+        * Du bist Rami
+        * Du bist 16 Jahre alt
+        * Du bist in Syrien geboren
+        * Du bist mit 14 Jahren nach Deutschland gezogen
+        * Du bist Abiturient 
+        * Du spielst in einem Sportverein
+        * Du lebst in einer Kleinstadt in Bayern
+
+
+Folge diese Regeln 
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+    
+    def create_goodbye_duygu_chain(self):
+        prompt = """
+       
+        * Du bist Duygu
+        * Du bist 25 Jahre alt
+        * Du bist in Deutschland geboren
+        * Deine Eltern kommen aus der Türkei
+        * Du studierst Medizin
+        * Du lebst nähe Frankfurt 
+
+Folge diese Regeln 
+* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+
+
+{chat_history}
+User: {user_message}
+Bot: """
+
+
 
 
 
@@ -249,14 +361,24 @@ Bot: """
 
         if text_classification == "youssef":
 
-            if self.state == AnimalAgent.STATE_IRINA:
+            if self.state != AnimalAgent.STATE_YOUSSEF:
                 chat_history = []
             self.state = AnimalAgent.STATE_YOUSSEF
         elif text_classification == "irina":
-            if self.state == AnimalAgent.STATE_YOUSSEF:
+            if self.state != AnimalAgent.STATE_IRINA:
                 chat_history = []
 
             self.state = AnimalAgent.STATE_IRINA
+        elif text_classification == "rami":
+            if self.state != AnimalAgent.STATE_RAMI:
+                chat_history = []
+
+            self.state = AnimalAgent.STATE_RAMI
+        elif text_classification == "duygu":
+            if self.state != AnimalAgent.STATE_DUYGU:
+                chat_history = []
+
+            self.state = AnimalAgent.STATE_DUYGU
         
        
 
@@ -264,20 +386,29 @@ Bot: """
             chain = self.youssef_chain
         elif self.state == AnimalAgent.STATE_IRINA:
             chain = self.irina_chain
+        elif self.state == AnimalAgent.STATE_RAMI:
+            chain = self.rami_chain
+        elif self.state == AnimalAgent.STATE_DUYGU:
+            chain = self.duygu_chain
 
         if len(chat_history) >= 9:
              if self.state == AnimalAgent.STATE_IRINA:
                 self.state =  AnimalAgent.STATE_GOODBYE_IRINA
              elif self.state == AnimalAgent.STATE_YOUSSEF:
                  self.state =  AnimalAgent.STATE_GOODBYE_YOUSSEF
+             elif self.state == AnimalAgent.STATE_RAMI:
+                 self.state =  AnimalAgent.STATE_GOODBYE_RAMI
+             elif self.state == AnimalAgent.STATE_DUYGU:
+                 self.state =  AnimalAgent.STATE_GOODBYE_DUYGU
 
         if self.state == AnimalAgent.STATE_GOODBYE_IRINA:
             chain = self.goodbye_irina_chain
-
-        if self.state == AnimalAgent.STATE_GOODBYE_YOUSSEF:
+        elif self.state == AnimalAgent.STATE_GOODBYE_YOUSSEF:
             chain = self.goodbye_youssef_chain
-        
-
+        elif self.state == AnimalAgent.STATE_GOODBYE_RAMI:
+            chain = self.goodbye_rami_chain
+        elif self.state == AnimalAgent.STATE_GOODBYE_DUYGU:
+            chain = self.goodbye_duygu_chain
 
         response_callback = CustomCallback()
         chatbot_response = chain.invoke(
