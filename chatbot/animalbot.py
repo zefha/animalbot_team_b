@@ -269,7 +269,7 @@ Classification: """
         * Du wohnst in einem Mehrparteienhaus. 
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
@@ -293,7 +293,7 @@ Bot: """
         
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
@@ -316,7 +316,7 @@ Bot: """
 
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
@@ -337,7 +337,7 @@ Bot: """
         * Du lebst nähe Frankfurt 
 
 Folge diese Regeln 
-* Beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
 
 
 {chat_history}
