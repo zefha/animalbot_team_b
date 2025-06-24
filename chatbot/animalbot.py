@@ -344,14 +344,16 @@ Folge diese Regeln
 User: {user_message}
 Bot: """
 
-
+        chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
+        return chain
+    
 
 
 
     def get_response(self, user_message, chat_history):
         
         # print(len(chat_history))
-        # print(self.state)
+        # print("VOR:",self.state)
         classification_callback = CustomCallback()
         text_classification = self.text_classifier.invoke(
             user_message,
@@ -406,6 +408,9 @@ Bot: """
              elif self.state == AnimalAgent.STATE_DUYGU:
                  self.state =  AnimalAgent.STATE_GOODBYE_DUYGU
 
+
+        # print("NACH:",self.state)
+
         if self.state == AnimalAgent.STATE_GOODBYE_IRINA:
             chain = self.goodbye_irina_chain
         elif self.state == AnimalAgent.STATE_GOODBYE_YOUSSEF:
@@ -413,7 +418,11 @@ Bot: """
         elif self.state == AnimalAgent.STATE_GOODBYE_RAMI:
             chain = self.goodbye_rami_chain
         elif self.state == AnimalAgent.STATE_GOODBYE_DUYGU:
+
+            print("state is goodbye duygu!")
             chain = self.goodbye_duygu_chain
+
+        print(chain)
 
         response_callback = CustomCallback()
         chatbot_response = chain.invoke(
