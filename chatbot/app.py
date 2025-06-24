@@ -84,13 +84,21 @@ if "session_id" not in st.session_state:
 
 st.title("🗣 Ask Me Anything")
 st.markdown("""
-Chatte mit Youssef oder Irina! 
-Sage einfach "Du bist Youssef" oder "Du bist Irina" um den Charakter zu wählen.
+Chatte mit Youssef, Irina, Rami, oder Duygu! 
+Sage einfach "Du bist Youssef", "Du bist Irina", "Du bist Rami" oder "Du bist Duygu" um den Charakter zu wählen.
 """)
 
 
 # Status-Anzeige
-state_emoji = "👨🏿‍💻" if st.session_state.current_state == "youssef" else "👵🏻"
+if st.session_state.current_state == "youssef":
+    state_emoji = "👨🏿‍💻"
+elif st.session_state.current_state == "irina":
+    state_emoji = "👵🏻"
+elif st.session_state.current_state == "rami":
+    state_emoji = "🧑🏽"
+elif st.session_state.current_state == "duygu":
+    state_emoji = "🧕"
+
 st.markdown(f"**Aktueller Charakter:** {state_emoji}")
 
 # Chat-Verlauf anzeigen
