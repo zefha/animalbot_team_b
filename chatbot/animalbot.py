@@ -350,8 +350,8 @@ Bot: """
 
     def get_response(self, user_message, chat_history):
         
-        print(len(chat_history))
-        print(self.state)
+        # print(len(chat_history))
+        # print(self.state)
         classification_callback = CustomCallback()
         text_classification = self.text_classifier.invoke(
             user_message,
