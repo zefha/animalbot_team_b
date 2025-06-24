@@ -90,13 +90,16 @@ Sage einfach "Du bist Youssef", "Du bist Irina", "Du bist Rami" oder "Du bist Du
 
 
 # Status-Anzeige
-if st.session_state.current_state == "youssef":
+
+# print("state", st.session_state.current_state)
+
+if "youssef" in st.session_state.current_state :
     state_emoji = "👨🏿‍💻"
-elif st.session_state.current_state == "irina":
+elif "irina" in st.session_state.current_state :
     state_emoji = "👵🏻"
-elif st.session_state.current_state == "rami":
+elif "rami" in st.session_state.current_state :
     state_emoji = "🧑🏽"
-elif st.session_state.current_state == "duygu":
+elif "duygu" in st.session_state.current_state :
     state_emoji = "🧕"
 
 st.markdown(f"**Aktueller Charakter:** {state_emoji}")
