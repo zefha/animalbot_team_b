@@ -163,30 +163,43 @@ for message in st.session_state.messages:
                 unsafe_allow_html=True,
             )
 
+# --- Chatbot is typing indicator logic ---
+if "is_replying" not in st.session_state:
+    st.session_state.is_replying = False
+if "pending_user_input" not in st.session_state:
+    st.session_state.pending_user_input = None
+
 # Eingabefeld in einem Container
 with st.container():
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
     user_input = st.text_input(
-        "Deine Nachricht:", key=f"user_input_{st.session_state.input_key}"
+        "Deine Nachricht:", key=f"user_input_{st.session_state.input_key}",
+        disabled=st.session_state.is_replying
     )
     st.markdown("</div>", unsafe_allow_html=True)
 
-if user_input and user_input != st.session_state.last_input:
+# Step 1: User submits a message
+if user_input and user_input != st.session_state.last_input and not st.session_state.is_replying:
+    st.session_state.pending_user_input = user_input
+    st.session_state.is_replying = True
+    st.rerun()
+
+# Step 2: If there is a pending message, send it to the API
+if st.session_state.is_replying and st.session_state.pending_user_input:
+    st.info("🤖 Der Chatbot schreibt ...")
     # Nachricht zum Chat-Verlauf hinzufügen
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    st.session_state.last_input = user_input
+    st.session_state.messages.append({"role": "user", "content": st.session_state.pending_user_input})
+    st.session_state.last_input = st.session_state.pending_user_input
 
-
-     # Zähle die Anzahl der User-Nachrichten
+    # Zähle die Anzahl der User-Nachrichten
     user_message_count = sum(1 for msg in st.session_state.messages if msg["role"] == "user")
-
 
     # API-Anfrage senden
     try:
         response = requests.post(
             API_URL,
             json={
-                "message": user_input,
+                "message": st.session_state.pending_user_input,
                 "chat_history": [msg["content"] for msg in st.session_state.messages],
                 "session_id": st.session_state.session_id,
                 "state": st.session_state.current_state
@@ -200,8 +213,7 @@ if user_input and user_input != st.session_state.last_input:
         )
         st.session_state.current_state = response_data["state"]
 
-
-         # Sende eine benutzerdefinierte Nachricht nach 5 User-Nachrichten
+        # Sende eine benutzerdefinierte Nachricht nach 5 User-Nachrichten
         if user_message_count == 5:
             st.session_state.messages.append(
                 {"role": "bot", "content": "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"}
@@ -209,7 +221,11 @@ if user_input and user_input != st.session_state.last_input:
 
         # Eingabefeld leeren durch Erhöhung des Keys
         st.session_state.input_key += 1
+        st.session_state.is_replying = False
+        st.session_state.pending_user_input = None
         st.rerun()
 
     except Exception as e:
+        st.session_state.is_replying = False
+        st.session_state.pending_user_input = None
         st.error(f"Fehler bei der Kommunikation mit dem Server: {str(e)}")
