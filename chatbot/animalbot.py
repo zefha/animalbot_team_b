@@ -8,6 +8,7 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain_core.prompts import PromptTemplate
 from langchain_core.outputs import LLMResult
 
+
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
@@ -37,8 +38,9 @@ if not API_KEY:
 # https://python.langchain.com/v0.1/docs/modules/callbacks/
 class CustomCallback(BaseCallbackHandler):
 
-    def __init__(self):
+    def __init__(self, state):
         self.messages = {}
+        self.state = state
 
     def on_llm_start(
         self, serialized: dict[str, Any], prompts: list[str], **kwargs: Any
@@ -78,7 +80,8 @@ class AnimalAgent:
             openai_api_base="https://chat-ai.academiccloud.de/v1",
         )
 
-        self.state = AnimalAgent.STATE_IRINA
+        # self.state = AnimalAgent.STATE_IRINA
+        self.state = state
         self.youssef_chain = self.create_youssef_chain()
         self.irina_chain = self.create_irina_chain()
         self.rami_chain = self.create_rami_chain()
@@ -357,6 +360,8 @@ Bot: """
         
         # print(len(chat_history))
         # print("VOR:",self.state)
+
+
         classification_callback = CustomCallback()
         text_classification = self.text_classifier.invoke(
             user_message,
@@ -425,7 +430,7 @@ Bot: """
             print("state is goodbye duygu!")
             chain = self.goodbye_duygu_chain
 
-        print(chain)
+        # print(chain)
 
         response_callback = CustomCallback()
         chatbot_response = chain.invoke(
@@ -479,7 +484,7 @@ class LogWriter:
 
 
 if __name__ == "__main__":
-
+    
     agent = AnimalAgent()
     chat_history = []
     log_writer = LogWriter()

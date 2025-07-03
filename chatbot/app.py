@@ -93,6 +93,31 @@ Sage einfach mit wem du sprechen möchtest, um den Charakter zu wählen.
 
 # print("state", st.session_state.current_state)
 
+
+st.markdown("### Wähle einen Charakter:")
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    if st.button("👵🏻 Irina"):
+        st.session_state.current_state = "irina"
+        st.experimental_rerun()
+
+with col2:
+    if st.button("👨🏿‍💻 Youssef"):
+        st.session_state.current_state = "youssef"
+        st.experimental_rerun()
+
+with col3:
+    if st.button("🧑🏽 Rami"):
+        st.session_state.current_state = "rami"
+        st.experimental_rerun()
+
+with col4:
+    if st.button("🧕 Duygu"):
+        st.session_state.current_state = "duygu"
+        st.experimental_rerun()
+
 if "youssef" in st.session_state.current_state :
     state_emoji = "👨🏿‍💻"
 elif "irina" in st.session_state.current_state :
@@ -149,6 +174,7 @@ if user_input and user_input != st.session_state.last_input:
                 "message": user_input,
                 "chat_history": [msg["content"] for msg in st.session_state.messages],
                 "session_id": st.session_state.session_id,
+                "state": st.session_state.current_state
             },
         )
         response_data = response.json()
