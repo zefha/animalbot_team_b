@@ -216,7 +216,7 @@ if st.session_state.is_replying and st.session_state.pending_user_input:
         # Sende eine benutzerdefinierte Nachricht nach 5 User-Nachrichten
         if user_message_count == 5:
             st.session_state.messages.append(
-                {"role": "bot", "content": "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"}
+                {"role": "bot", "content": "Danke für das Gespräch. Bitte füllen Sie das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"}
             )
 
         # Eingabefeld leeren durch Erhöhung des Keys
