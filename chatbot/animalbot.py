@@ -225,10 +225,10 @@ Bot: """
 
     def create_text_classifier(self):
 
-        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a irina, youssef, rami, duygu or none of these. 
+        prompt = """Given message to a chatbot, classify if the message tells the chatbot to be irina, youssef, rami, duygu or none of these. 
 
 * Answer with one word only.
-* Answer with irina, youssef, rami, duygu or none.
+* Answer as Irina, Youssef, Rami, Duygu or none.
 * Do not respond with more than one word.
 
 Examples:
@@ -272,7 +272,8 @@ Classification: """
         * Du wohnst in einem Mehrparteienhaus. 
 
 Folge diese Regeln 
-* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97".
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 
 {chat_history}
@@ -297,7 +298,7 @@ Bot: """
 
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -317,10 +318,9 @@ Bot: """
         * Du spielst in einem Sportverein
         * Du lebst in einer Kleinstadt in Bayern
 
-
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -341,7 +341,7 @@ Bot: """
 
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -350,8 +350,6 @@ Bot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
     
-
-
 
     def get_response(self, user_message, chat_history):
         
