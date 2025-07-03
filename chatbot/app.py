@@ -85,7 +85,8 @@ if "session_id" not in st.session_state:
 st.title("🗣 Ask Me Anything")
 st.markdown("""
 Chatte mit Youssef, Irina, Rami, oder Duygu! 
-Sage einfach mit wem du sprechen möchtest, um den Charakter zu wählen.
+Sage einfach mit wem du sprechen möchtest, um den Charakter zu wählen.  
+
 **Hinweis:** Bitte beachten Sie, dass dies eine Simulation ist und nicht als Ersatz für echte Gespräche oder Beratungen dienen soll. Es ist wichtig, sich an Fachleute zu wenden, wenn Sie persönliche oder sensible Themen besprechen möchten.
 """)
 
