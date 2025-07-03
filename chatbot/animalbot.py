@@ -60,10 +60,7 @@ class AnimalAgent:
     STATE_RAMI = "rami"
     STATE_DUYGU = "duygu"
 
-    # STATE_GOODBYE_IRINA = "goodbye irina"
-    # STATE_GOODBYE_YOUSSEF = "goodbye youssef"
-    # STATE_GOODBYE_RAMI = "goodbye rami"
-    # STATE_GOODBYE_DUYGU = "goodbye duygu"
+  
 
 
     def __init__(self, state):
@@ -80,27 +77,14 @@ class AnimalAgent:
             openai_api_base="https://chat-ai.academiccloud.de/v1",
         )
 
-        # self.state = AnimalAgent.STATE_IRINA
+        
         self.state = state
         self.youssef_chain = self.create_youssef_chain()
         self.irina_chain = self.create_irina_chain()
         self.rami_chain = self.create_rami_chain()
         self.duygu_chain = self.create_duygu_chain()
 
-        # self.goodbye_irina_chain = self.create_goodbye_irina_chain()
-        # self.goodbye_youssef_chain = self.create_goodbye_youssef_chain()
-        # self.goodbye_rami_chain = self.create_goodbye_rami_chain()
-        # self.goodbye_duygu_chain = self.create_goodbye_duygu_chain()
-
-        # self.text_classifier_llm = ChatOpenAI(
-        #     model="meta-llama-3.1-8b-instruct",
-        #     temperature=0.01,
-        #     logprobs=True,
-        #     openai_api_key=API_KEY,
-        #     openai_api_base="https://chat-ai.academiccloud.de/v1",
-        # )
-
-        # self.text_classifier = self.create_text_classifier()
+      
 
     def create_youssef_chain(self):
 
@@ -222,132 +206,11 @@ Bot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
 
-#     def create_text_classifier(self):
 
-#         prompt = """Given message to a chatbot, classify if the message tells the chatbot to be irina, youssef, rami, duygu or none of these. 
 
-# * Answer with one word only.
-# * Answer as Irina, Youssef, Rami, Duygu or none.
-# * Do not respond with more than one word.
 
-# Examples:
-
-# Message: Hey there, you are youssef.
-# Classification: youssef
-
-# Message: I know that you are irina.
-# Classification: irina
-
-# Message: Hey there, you are rami.
-# Classification: rami
-
-# Message: Hey there, you are duygu.
-# Classification: duygu
-
-# Message: Hello how are you doing?
-# Classification: none
-
-# Message: {message}
-# Classification: """
-
-#         chain = (
-#             PromptTemplate.from_template(prompt)
-#             | self.text_classifier_llm
-#             | StrOutputParser()
-#         )
-#         return chain
     
 
-#     def create_goodbye_irina_chain(self):
-#         prompt = """
-       
-#         * Du bist Irina
-#         * Du bist 68 Jahre alt
-#         * Du bist in Russland geboren
-#         * Du bist in den 1980er nach Deutschland gezogen
-#         * Du bist Rentnerin 
-#         * Du warst Köchin
-#         * Du lebst in Freiburg
-#         * Du wohnst in einem Mehrparteienhaus. 
-
-# Folge diese Regeln 
-# * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97".
-# * Die Antwort soll auf vier Sätze begrenzt sein
-
-
-# {chat_history}
-# User: {user_message}
-# Bot: """
-
-#         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
-#         return chain
-    
-#     def create_goodbye_youssef_chain(self):
-#         prompt = """
-       
-#         * Du bist Youssef, 
-#         * Du bist 39 Jahre alt
-#         * Du bist Softwareentwickler
-#         * Du bist in Deutschland geboren
-#         * Deine Eltern sind in Deutschland geboren
-#         * Deine Großeltern kommen aus Marokko. 
-#         * Du lebst in Hamburg 
-#         * Du bist schwarz
-        
-
-# Folge diese Regeln 
-# * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-# * Die Antwort soll auf vier Sätze begrenzt sein
-
-# {chat_history}
-# User: {user_message}
-# Bot: """
-
-#         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
-#         return chain
-    
-#     def create_goodbye_rami_chain(self):
-#         prompt = """
-       
-#         * Du bist Rami
-#         * Du bist 16 Jahre alt
-#         * Du bist in Syrien geboren
-#         * Du bist mit 14 Jahren nach Deutschland gezogen
-#         * Du bist Abiturient 
-#         * Du spielst in einem Sportverein
-#         * Du lebst in einer Kleinstadt in Bayern
-
-# Folge diese Regeln 
-# * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-# * Die Antwort soll auf vier Sätze begrenzt sein
-
-# {chat_history}
-# User: {user_message}
-# Bot: """
-
-#         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
-#         return chain
-    
-#     def create_goodbye_duygu_chain(self):
-#         prompt = """
-       
-#         * Du bist Duygu
-#         * Du bist 25 Jahre alt
-#         * Du bist in Deutschland geboren
-#         * Deine Eltern kommen aus der Türkei
-#         * Du studierst Medizin
-#         * Du lebst nähe Frankfurt 
-
-# Folge diese Regeln 
-# * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-# * Die Antwort soll auf vier Sätze begrenzt sein
-
-# {chat_history}
-# User: {user_message}
-# Bot: """
-
-#         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
-#         return chain
     
 
     def get_response(self, user_message, chat_history):
@@ -356,38 +219,7 @@ Bot: """
         # print("VOR:",self.state)
 
 
-        # classification_callback = CustomCallback()
-        # text_classification = self.text_classifier.invoke(
-        #     user_message,
-        #     {"callbacks": [classification_callback], "stop_sequences": ["\n"]},
-        # )
-
-        # if text_classification.find("\n") > 0:
-        #     text_classification = text_classification[
-        #         0 : text_classification.find("\n")
-        #     ]
-        # text_classification = text_classification.strip()
-
-        # if text_classification == "youssef":
-
-        #     if self.state != AnimalAgent.STATE_YOUSSEF:
-        #         chat_history = []
-        #     self.state = AnimalAgent.STATE_YOUSSEF
-        # elif text_classification == "irina":
-        #     if self.state != AnimalAgent.STATE_IRINA:
-        #         chat_history = []
-
-        #     self.state = AnimalAgent.STATE_IRINA
-        # elif text_classification == "rami":
-        #     if self.state != AnimalAgent.STATE_RAMI:
-        #         chat_history = []
-
-        #     self.state = AnimalAgent.STATE_RAMI
-        # elif text_classification == "duygu":
-        #     if self.state != AnimalAgent.STATE_DUYGU:
-        #         chat_history = []
-
-        #     self.state = AnimalAgent.STATE_DUYGU
+      
         
        
 
@@ -400,29 +232,7 @@ Bot: """
         elif self.state == AnimalAgent.STATE_DUYGU:
             chain = self.duygu_chain
 
-        # if len(chat_history) >= 9:
-        #      if self.state == AnimalAgent.STATE_IRINA:
-        #         self.state =  AnimalAgent.STATE_GOODBYE_IRINA
-        #      elif self.state == AnimalAgent.STATE_YOUSSEF:
-        #          self.state =  AnimalAgent.STATE_GOODBYE_YOUSSEF
-        #      elif self.state == AnimalAgent.STATE_RAMI:
-        #          self.state =  AnimalAgent.STATE_GOODBYE_RAMI
-        #      elif self.state == AnimalAgent.STATE_DUYGU:
-        #          self.state =  AnimalAgent.STATE_GOODBYE_DUYGU
-
-
-        # print("NACH:",self.state)
-
-        # if self.state == AnimalAgent.STATE_GOODBYE_IRINA:
-        #     chain = self.goodbye_irina_chain
-        # elif self.state == AnimalAgent.STATE_GOODBYE_YOUSSEF:
-        #     chain = self.goodbye_youssef_chain
-        # elif self.state == AnimalAgent.STATE_GOODBYE_RAMI:
-        #     chain = self.goodbye_rami_chain
-        # elif self.state == AnimalAgent.STATE_GOODBYE_DUYGU:
-
-        #     print("state is goodbye duygu!")
-        #     chain = self.goodbye_duygu_chain
+       
 
         # print(chain)
 
@@ -442,22 +252,7 @@ Bot: """
             },
         }
 
-        # log_message = {
-        #     "user_message": str(user_message),
-        #     "chatbot_response": str(chatbot_response),
-        #     "agent_state": self.state,
-        #     "classification": {
-        #         "result": text_classification,
-        #         "llm_details": {
-        #             key: value
-        #             for key, value in classification_callback.messages.items()
-        #         },
-        #     },
-        #     "chatbot_response": {
-        #         key: value for key, value in response_callback.messages.items()
-        #     },
-        # }
-
+       
         return chatbot_response, log_message
 
 
