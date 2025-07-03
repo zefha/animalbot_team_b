@@ -103,22 +103,30 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     if st.button("👵🏻 Irina"):
         st.session_state.current_state = "irina"
-        st.experimental_rerun()
+        st.session_state.messages = []
+        st.session_state.last_input = ""  # Reset last input!
+        st.rerun()
 
 with col2:
     if st.button("👨🏿‍💻 Youssef"):
         st.session_state.current_state = "youssef"
-        st.experimental_rerun()
+        st.session_state.messages = []
+        st.session_state.last_input = ""
+        st.rerun()
 
 with col3:
     if st.button("🧑🏽 Rami"):
         st.session_state.current_state = "rami"
-        st.experimental_rerun()
+        st.session_state.messages = []
+        st.session_state.last_input = ""
+        st.rerun()
 
 with col4:
     if st.button("🧕 Duygu"):
         st.session_state.current_state = "duygu"
-        st.experimental_rerun()
+        st.session_state.messages = []
+        st.session_state.last_input = ""
+        st.rerun()
 
 if "youssef" in st.session_state.current_state :
     state_emoji = "👨🏿‍💻"
@@ -168,6 +176,11 @@ if user_input and user_input != st.session_state.last_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     st.session_state.last_input = user_input
 
+
+     # Zähle die Anzahl der User-Nachrichten
+    user_message_count = sum(1 for msg in st.session_state.messages if msg["role"] == "user")
+
+
     # API-Anfrage senden
     try:
         response = requests.post(
@@ -187,9 +200,16 @@ if user_input and user_input != st.session_state.last_input:
         )
         st.session_state.current_state = response_data["state"]
 
+
+         # Sende eine benutzerdefinierte Nachricht nach 5 User-Nachrichten
+        if user_message_count == 5:
+            st.session_state.messages.append(
+                {"role": "bot", "content": "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"}
+            )
+
         # Eingabefeld leeren durch Erhöhung des Keys
         st.session_state.input_key += 1
-        st.experimental_rerun()
+        st.rerun()
 
     except Exception as e:
         st.error(f"Fehler bei der Kommunikation mit dem Server: {str(e)}")
