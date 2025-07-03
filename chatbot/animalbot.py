@@ -127,7 +127,6 @@ Folge diese Regeln
 * Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
-* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
 
 {chat_history}
 User: {user_message}
@@ -158,7 +157,6 @@ Folge diese Regeln
 * Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
-* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
 
 {chat_history}
 User: {user_message}
@@ -188,7 +186,6 @@ Folge diese Regeln
 * Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
-* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
 
 {chat_history}
 User: {user_message}
@@ -217,7 +214,6 @@ Folge diese Regeln
 * Halte deine Antworten kurz und konzentriert: nicht mehr als 5 Sätze pro Antwort.
 * Stelle nach jeder Antwort eine kurze Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt.
 * Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.
-* Weise zu Beginn eines Gesprächs immer in einem fettgedruckten Absatz auf den Umstand hin, dass es sich um eine Simulation und nicht um einen Ersatz für echte Gespräche handelt.
 
 {chat_history}
 User: {user_message}
@@ -228,10 +224,10 @@ Bot: """
 
     def create_text_classifier(self):
 
-        prompt = """Given message to a chatbot, classifiy if the message tells the chatbot to be a irina, youssef, rami, duygu or none of these. 
+        prompt = """Given message to a chatbot, classify if the message tells the chatbot to be irina, youssef, rami, duygu or none of these. 
 
 * Answer with one word only.
-* Answer with irina, youssef, rami, duygu or none.
+* Answer as Irina, Youssef, Rami, Duygu or none.
 * Do not respond with more than one word.
 
 Examples:
@@ -275,7 +271,8 @@ Classification: """
         * Du wohnst in einem Mehrparteienhaus. 
 
 Folge diese Regeln 
-* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
+* Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97".
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 
 {chat_history}
@@ -300,7 +297,7 @@ Bot: """
 
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -320,10 +317,9 @@ Bot: """
         * Du spielst in einem Sportverein
         * Du lebst in einer Kleinstadt in Bayern
 
-
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -344,7 +340,7 @@ Bot: """
 
 Folge diese Regeln 
 * Auf allen Fällen beende das Gespräch, indem du am Ende folgenden Text anfügst "Danke für das Gespräch. Bitte fülle das Formular unter diesem URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"
-
+* Die Antwort soll auf vier Sätze begrenzt sein
 
 {chat_history}
 User: {user_message}
@@ -353,8 +349,6 @@ Bot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
         return chain
     
-
-
 
     def get_response(self, user_message, chat_history):
         
