@@ -233,7 +233,7 @@ if st.session_state.is_replying and st.session_state.pending_user_input:
                 "&entry.677084014=" + chat_history_encoded
             )
             st.session_state.messages.append(
-                {"role": "bot", "content": f"Danke für das Gespräch. Bitte fülle das Formular aus: [Formular öffnen]({google_form_url})"}
+                {"role": "bot", "content": f"Danke für das Gespräch. Bitte fülle das Formular aus: <a href='{google_form_url}' target='_blank'>Formular öffnen</a>"}
             )
 
         # Eingabefeld leeren durch Erhöhung des Keys
