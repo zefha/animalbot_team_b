@@ -120,6 +120,8 @@ Befolge diese Regeln:
         # Add Gegenfrage-Regel nur wenn weniger als 5 User-Nachrichten
         if self.user_message_count < 5:
             prompt += "\n* Stelle nach jeder Antwort eine kurze thematisch passende Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt."
+        elif self.user_message_count == 5:
+            prompt += "\n* Stelle ab jetzt keine Gegenfragen mehr und beende das Gespräch höflich, ohne weitere Fragen zu stellen."
         prompt += "\n* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.\n"
         prompt += "\n{chat_history}\nUser: {user_message}\nBot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
@@ -158,6 +160,8 @@ Befolge diese Regeln:
 """
         if self.user_message_count < 5:
             prompt += "\n* Stelle nach jeder Antwort eine kurze thematisch passende Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt."
+        elif self.user_message_count == 5:
+            prompt += "\n* Stelle ab jetzt keine Gegenfragen mehr und beende das Gespräch höflich, ohne weitere Fragen zu stellen."
         prompt += "\n* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.\n"
         prompt += "\n{chat_history}\nUser: {user_message}\nBot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
@@ -196,6 +200,8 @@ Befolge diese Regeln:
 """
         if self.user_message_count < 5:
             prompt += "\n* Stelle nach jeder Antwort eine kurze thematisch passende Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt."
+        elif self.user_message_count == 5:
+            prompt += "\n* Stelle ab jetzt keine Gegenfragen mehr und beende das Gespräch höflich, ohne weitere Fragen zu stellen."
         prompt += "\n* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.\n"
         prompt += "\n{chat_history}\nUser: {user_message}\nBot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
@@ -231,6 +237,8 @@ Befolge diese Regeln:
 """
         if self.user_message_count < 5:
             prompt += "\n* Stelle nach jeder Antwort eine kurze thematisch passende Gegenfrage, die zu Empathie oder weiterem Nachdenken anregt."
+        elif self.user_message_count == 5:
+            prompt += "\n* Stelle ab jetzt keine Gegenfragen mehr und beende das Gespräch höflich, ohne weitere Fragen zu stellen."
         prompt += "\n* Wenn eine Frage unangemessen oder beleidigend ist, reagiere ruhig und erkläre deutlich, dass dies ein respektvoller Raum ist.\n"
         prompt += "\n{chat_history}\nUser: {user_message}\nBot: """
         chain = PromptTemplate.from_template(prompt) | self.llm | StrOutputParser()
