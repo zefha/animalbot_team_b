@@ -207,7 +207,8 @@ if st.session_state.is_replying and st.session_state.pending_user_input:
                 "message": st.session_state.pending_user_input,
                 "chat_history": [msg["content"] for msg in st.session_state.messages],
                 "session_id": st.session_state.session_id,
-                "state": st.session_state.current_state
+                "state": st.session_state.current_state,
+                "user_message_count": user_message_count
             },
         )
         response_data = response.json()
