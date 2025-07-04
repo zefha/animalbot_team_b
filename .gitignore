@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 
 chatbot/Fragen
+chatbot/prompts.txt
