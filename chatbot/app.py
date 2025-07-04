@@ -221,8 +221,19 @@ if st.session_state.is_replying and st.session_state.pending_user_input:
 
         # Sende eine benutzerdefinierte Nachricht nach 5 User-Nachrichten
         if user_message_count == 5:
+            # Serialize chat history as readable string
+            chat_history_str = "\n".join([
+                f"{'Du' if m['role']=='user' else 'Bot'}: {m['content']}" for m in st.session_state.messages
+            ])
+            import urllib.parse
+            chat_history_encoded = urllib.parse.quote(chat_history_str)
+            google_form_url = (
+                "https://docs.google.com/forms/d/e/1FAIpQLSeRHVcJZcJeFivyZ6PBgJMq9KZ4OxUySr3tpQHwyZfGz5QdeA/viewform"
+                "?usp=pp_url"
+                "&entry.677084014=" + chat_history_encoded
+            )
             st.session_state.messages.append(
-                {"role": "bot", "content": "Danke für das Gespräch. Bitte fülle das Formular unter dieser URL aus: https://forms.gle/KqdGKf1U4gJqJ3D97"}
+                {"role": "bot", "content": f"Danke für das Gespräch. Bitte fülle das Formular aus: [Formular öffnen]({google_form_url})"}
             )
 
         # Eingabefeld leeren durch Erhöhung des Keys
