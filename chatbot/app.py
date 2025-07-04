@@ -169,12 +169,17 @@ if "is_replying" not in st.session_state:
 if "pending_user_input" not in st.session_state:
     st.session_state.pending_user_input = None
 
+
+# Zähle die Anzahl der User-Nachrichten (muss vor dem Input-Feld passieren)
+user_message_count = sum(1 for msg in st.session_state.messages if msg["role"] == "user")
+
 # Eingabefeld in einem Container
 with st.container():
     st.markdown('<div class="input-container">', unsafe_allow_html=True)
     user_input = st.text_input(
-        "Deine Nachricht:", key=f"user_input_{st.session_state.input_key}",
-        disabled=st.session_state.is_replying
+        "Deine Nachricht:",
+        key=f"user_input_{st.session_state.input_key}",
+        disabled=st.session_state.is_replying or user_message_count >= 5
     )
     st.markdown("</div>", unsafe_allow_html=True)
 
